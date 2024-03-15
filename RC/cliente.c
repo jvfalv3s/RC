@@ -11,6 +11,11 @@
 
 void erro(char *msg);
 
+//Criar socket e ligar ao servidor
+sockfd = socket(AF_INET, SOCK_STREAM, 0);
+if(sockfd < 0)
+    erro("na função socket");
+
 int main(int argc, char *argv[]){
     char endServer[100];
     int fd;

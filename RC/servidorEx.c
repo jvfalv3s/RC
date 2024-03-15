@@ -15,6 +15,8 @@
 void process_client(int client_fd, struct sockaddr_in client_addr, int client_number);
 void erro(char *msg);
 
+#include <arpa/inet.h>
+
 int main(){
     int fd, client;
     struct sockaddr_in addr, client_addr;
@@ -42,7 +44,7 @@ int main(){
         client = accept(fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_size);
         if(client > 0){
             client_number++;
-            printf("Cliente conectado no endereço IP: %d, Porto: %d\n", int_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            printf("Cliente conectado no endereço IP: %s, Porto: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
             printf("Cliente numero %d conectado\n", client_number);
             if(fork() == 0){
                 close(fd);
@@ -63,9 +65,8 @@ void process_client(int client_fd, struct sockaddr_in client_addr, int client_nu
     char message[BUF_SIZE];
 
     //constroi a mensagem a ser enviada para o cliente
-    sprintf(message, "Endereço IP: %s, Porto: %d, Número de clientes conectados: %d\n",inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), client_number); //O servidor devolve ao cliente uma mensagem de texto com o endereço IPv4, o porto do qual o cliente está a ligar e o número de clientes que já estabeleceram ligação.
-    write(client_fd, message, strlen(message)); // O servidor escreve na consola o endereço IP e o porto do cliente que lhe está a ligar; dá também um número a cada cliente novo que liga;
-
+    sprintf(message, "Endereço IP: %s, Porto: %d, Número de clientes conectados: %d\n",inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), client_number); 
+    write(client_fd, message, strlen(message)); 
     do {
         nread = read(client_fd, buffer, BUF_SIZE-1);
         buffer[nread] = '\0';
@@ -80,7 +81,3 @@ void erro(char *msg){
     printf("Erro: %s\n", msg);
     exit(-1);
 }
-
-
-
-
