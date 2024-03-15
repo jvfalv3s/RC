@@ -19,6 +19,7 @@ int main(){
     int fd, client;
     struct sockaddr_in addr, client_addr;
     int client_addr_size;
+    int client_number = 0;
 
     bzero((void *) &addr, sizeof(addr));
     addr.sin_family = AF_INET;
@@ -40,9 +41,12 @@ int main(){
         //wait for new connection
         client = accept(fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_size);
         if(client > 0){
+            client_number++;
+            printf("Cliente conectado no endereço IP: %s, Porto: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            printf("Cliente numero %d conectado\n", client_number);
             if(fork() == 0){
                 close(fd);
-                process_cliennt(client);
+                process_cliennt(client, client_addr, client_number);
                 close(client);
                 exit(0);
             }
@@ -56,6 +60,11 @@ int main(){
 void process_client(int client_fd){
     int nread = 0;
     char buffer[BUF_SIZE];
+    char message[BUF_SIZE];
+
+    //constroi a mensagem a ser enviada para o cliente
+    sprintf(message, "Endereco IP: %s\nPorto: %d\nNumero de clientes: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), getpid());
+    write(client_fd, message, strlen(message));
 
     do {
         nread = read(client_fd, buffer, BUF_SIZE-1);
