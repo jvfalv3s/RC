@@ -70,6 +70,14 @@ void process_client(int client_fd, struct sockaddr_in client_addr, int client_nu
     do {
         nread = read(client_fd, buffer, BUF_SIZE-1);
         buffer[nread] = '\0';
+
+        //condição de saida 
+
+        if (strcmp(buffer, "Sair") == 0){
+            printf("Cliente numero %d desconectado\n", client_number);
+            break;
+        }
+        
         printf("%s", buffer);
         fflush(stdout);
     } while (nread > 0);
