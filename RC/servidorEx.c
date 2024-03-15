@@ -12,7 +12,7 @@
 #define SERVER_PORT 9000
 #define BUF_SIZE 1024
 
-void process_cliennt(int fd);
+void process_client(int client_fd, struct sockaddr_in client_addr, int client_number);
 void erro(char *msg);
 
 int main(){
@@ -42,11 +42,11 @@ int main(){
         client = accept(fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_size);
         if(client > 0){
             client_number++;
-            printf("Cliente conectado no endereço IP: %s, Porto: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            printf("Cliente conectado no endereço IP: %d, Porto: %d\n", int_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
             printf("Cliente numero %d conectado\n", client_number);
             if(fork() == 0){
                 close(fd);
-                process_cliennt(client, client_addr, client_number);
+                process_client(client, client_addr, client_number);
                 close(client);
                 exit(0);
             }
@@ -57,14 +57,14 @@ int main(){
     return 0;
 }
 
-void process_client(int client_fd){
+void process_client(int client_fd, struct sockaddr_in client_addr, int client_number){
     int nread = 0;
     char buffer[BUF_SIZE];
     char message[BUF_SIZE];
 
     //constroi a mensagem a ser enviada para o cliente
-    sprintf(message, "Endereco IP: %s\nPorto: %d\nNumero de clientes: %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), getpid());
-    write(client_fd, message, strlen(message));
+    sprintf(message, "Endereço IP: %s, Porto: %d, Número de clientes conectados: %d\n",inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port), client_number); //O servidor devolve ao cliente uma mensagem de texto com o endereço IPv4, o porto do qual o cliente está a ligar e o número de clientes que já estabeleceram ligação.
+    write(client_fd, message, strlen(message)); // O servidor escreve na consola o endereço IP e o porto do cliente que lhe está a ligar; dá também um número a cada cliente novo que liga;
 
     do {
         nread = read(client_fd, buffer, BUF_SIZE-1);
@@ -72,6 +72,7 @@ void process_client(int client_fd){
         printf("%s", buffer);
         fflush(stdout);
     } while (nread > 0);
+
     close(client_fd);
 }
 
@@ -81,6 +82,5 @@ void erro(char *msg){
 }
 
 
-//funcionalidades a acrescentar : O servidor escreve na consola o endereço IP e o porto do cliente que lhe está a ligar; dá também um número a cada cliente novo que liga;
 
-// O servidor devolve ao cliente uma mensagem de texto com o endereço IPv4, o porto do qual o cliente está a ligar e o número de clientes que já estabeleceram ligação.
+
