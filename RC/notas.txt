@@ -1,0 +1,8 @@
+Notas:
+
+•Um endereço associado a um socket TCP fica indisponível durante algum tempo após o socket ser fechado. Isto só não acontece se usarmos a flag SO_REUSEADDR (ver a função setsockopt() ). Esta flag permite que vários sockets possam estar associados a um mesmo endereço. Não é aconselhado o uso desta flag, exceto em casos especiais.
+
+•Devem sempre fechar o socket antes de terminar o programa.
+
+•Uma solução alternativa em caso de erro no bind, é mudar o número do porto em utilização no servidor.
+
