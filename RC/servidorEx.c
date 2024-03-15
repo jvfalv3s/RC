@@ -70,3 +70,8 @@ void erro(char *msg){
     printf("Erro: %s\n", msg);
     exit(-1);
 }
+
+
+//funcionalidades a acrescentar : O servidor escreve na consola o endereço IP e o porto do cliente que lhe está a ligar; dá também um número a cada cliente novo que liga;
+
+// O servidor devolve ao cliente uma mensagem de texto com o endereço IPv4, o porto do qual o cliente está a ligar e o número de clientes que já estabeleceram ligação.
