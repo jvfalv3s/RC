@@ -1,4 +1,4 @@
-`/**********************************************************************
+/**********************************************************************
 * CLIENTE liga ao servidor (definido em argv[1]) no porto especificado
 * (em argv[2]), escrevendo a palavra predefinida (em argv[3]).
 * USO: >cliente <enderecoServidor>  <porto>  <Palavra>
@@ -15,7 +15,7 @@
 void erro(char *msg);
 
 int main(int argc, char *argv[]) {
-    char buffer[1024];
+    char buffer[2048];
     char endServer[100];
     int fd;
     struct sockaddr_in addr;
@@ -44,7 +44,8 @@ int main(int argc, char *argv[]) {
         erro("socket");
     if (connect(fd,(struct sockaddr *)&addr,sizeof (addr)) < 0)
         erro("Connect");
-        
+    read(fd, buffer, sizeof(buffer));
+    printf("%s\n", buffer);
     //Espera para o user escrever algo
     while(1){
     printf("Waiting for input\n");

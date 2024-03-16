@@ -56,7 +56,6 @@ int main() {
     
     //Vamos criar uma matriz [num_linhas x 2(dominio,ip)]
     char **matrix[num_linhas];
-    char *token;
     int indice = 0;
     
     //Vamos precorrer de novo o ficheiro e sacar info para a matriz
@@ -108,9 +107,8 @@ void process_client(int client_fd, char***matrix, int num_linhas){
     printf("Welcome message sent\n");
     printf("%d",client_fd);
     write(client_fd,mensagem,strlen(mensagem));
-    //flush(stdout);
-    fflush(stdout);
-    
+    fflush(stdout);//flush(stdout);
+
     do{
         nread = read(client_fd, buffer, BUF_SIZE - 1);
         buffer[nread] = '\0';
