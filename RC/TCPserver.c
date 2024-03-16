@@ -11,7 +11,7 @@
 #include <stdbool.h>
 
 #define SERVER_PORT 9000
-#define BUF_SIZE 1024
+#define BUF_SIZE 2048
 
 void process_client(int fd,char ***matrix, int num_linhas);
 void erro(char *msg);
