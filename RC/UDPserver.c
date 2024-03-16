@@ -13,15 +13,49 @@ void erro(char *s){
     exit(1);
 }
 
-int main(void){
-    struct sockaddr_in si_minha, si_outra;
+void decToBin(int n) {
+    int binaryNum[32];
+    int i = 0;
+    while (n > 0) {
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+    printf("O número binário é: ");
+    for (int j = i - 1; j >= 0; j--)
+        printf("%d", binaryNum[j]);
+    printf("\n");
+}
 
+void decToHex(int n) {
+    char hexaDeciNum[100];
+    int i = 0;
+    while (n != 0) {
+        int temp = 0;
+        temp = n % 16;
+        if (temp < 10) {
+            hexaDeciNum[i] = temp + 48;
+            i++;
+        } else {
+            hexaDeciNum[i] = temp + 55;
+            i++;
+        }
+        n = n / 16;
+    }
+    printf("O número hexadecimal é: ");
+    for (int j = i - 1; j >= 0; j--)
+        printf("%c", hexaDeciNum[j]);
+}
+
+int main(void){
+    
+    struct sockaddr_in si_minha, si_outra;
     int s, recv_len;
     socklen_t slen = sizeof(si_outra);
     char buf[BUFLEN];
 
     //Cria um socket para recepção de pacotes UDP
-    if(s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)==-1){
+    if((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1){
         erro("Erro na criação do socket");
     }
 
@@ -44,6 +78,13 @@ int main(void){
     printf("Recebi uma mensagem do sistema com o dendreço %s e o porto %d\n", inet_ntoa(si_outra.sin_addr), ntohs(si_outra.sin_port));
     printf("Conteudo da mensagem: %s\n", buf);
 
+    //Convertendo a mensagem para inteiro
+    int num = atoi(buf);
+
+    //Chamando as funções de conversão e imprimindo os resultados
+    decToBin(num);
+    decToHex(num);
+    
     //Fecha o socket e termina o programa
     close(s);
     return 0;
