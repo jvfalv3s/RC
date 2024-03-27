@@ -1,0 +1,10 @@
+comunica com o servidor por udp.
+
+permite gerir os util,izadores e configurar a aplicação.
+
+-add_user
+-del_user
+-list_user
+-quit_server
+-login
+
