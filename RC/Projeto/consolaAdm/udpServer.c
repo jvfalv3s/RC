@@ -70,6 +70,26 @@ int main(void){
     int num = atoi(buf);
 
     //Chamando as funções de conversão e imprimindo os resultados
+    switch(num){
+        case 1:
+            addUser(num);
+            break;
+        case 2:
+            delUser(num);
+            break;
+        case 3:
+            listUsers();
+            break;
+        case 4:
+            quitServer();
+            break;
+        case 5:
+            login(num);
+            break;
+        default:
+            printf("Comando inválido\n");
+            break;
+    }
 
 
     
