@@ -13,38 +13,26 @@ void erro(char *s){
     exit(1);
 }
 
-void decToBin(int n) {
-    int binaryNum[32];
-    int i = 0;
-    while (n > 0) {
-        binaryNum[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-    printf("O número binário é: ");
-    for (int j = i - 1; j >= 0; j--)
-        printf("%d", binaryNum[j]);
-    printf("\n");
+//Funções para lidar com usuarios
+
+void addUser(int num){
+    printf("Adicionando usuario %d\n", num);
 }
 
-void decToHex(int n) {
-    char hexaDeciNum[100];
-    int i = 0;
-    while (n != 0) {
-        int temp = 0;
-        temp = n % 16;
-        if (temp < 10) {
-            hexaDeciNum[i] = temp + 48;
-            i++;
-        } else {
-            hexaDeciNum[i] = temp + 55;
-            i++;
-        }
-        n = n / 16;
-    }
-    printf("O número hexadecimal é: ");
-    for (int j = i - 1; j >= 0; j--)
-        printf("%c", hexaDeciNum[j]);
+void delUser(int num){
+    printf("Removendo usuario %d\n", num);
+}
+
+void listUsers(){
+    printf("Listando usuarios\n");
+}
+
+void quitServer(){
+    printf("Encerrando servidor\n");
+}
+
+void login(int num){
+    printf("Logando usuario %d\n", num);
 }
 
 int main(void){
@@ -82,8 +70,8 @@ int main(void){
     int num = atoi(buf);
 
     //Chamando as funções de conversão e imprimindo os resultados
-    decToBin(num);
-    decToHex(num);
+
+
     
     //Fecha o socket e termina o programa
     close(s);
